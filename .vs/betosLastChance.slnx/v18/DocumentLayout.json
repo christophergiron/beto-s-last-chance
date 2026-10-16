@@ -1,0 +1,205 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4D9D2851-2FF2-10BA-A100-23CD4E424AB5}|Beto.Pruebas\\Beto.Pruebas.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.pruebas\\pruebasautomata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D9D2851-2FF2-10BA-A100-23CD4E424AB5}|Beto.Pruebas\\Beto.Pruebas.csproj|solutionrelative:beto.pruebas\\pruebasautomata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D9D2851-2FF2-10BA-A100-23CD4E424AB5}|Beto.Pruebas\\Beto.Pruebas.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.pruebas\\pruebasalcanzabilidad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D9D2851-2FF2-10BA-A100-23CD4E424AB5}|Beto.Pruebas\\Beto.Pruebas.csproj|solutionrelative:beto.pruebas\\pruebasalcanzabilidad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\nucleo\\obligacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\nucleo\\obligacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\nucleo\\fase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\nucleo\\fase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\nucleo\\estadojuego.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\nucleo\\estadojuego.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\nucleo\\configuracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\nucleo\\configuracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\narrativa\\transicion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\narrativa\\transicion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\narrativa\\reglasbeto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\narrativa\\reglasbeto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\narrativa\\automatanarrativo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\narrativa\\automatanarrativo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{368F2EB0-47A9-C6EC-7897-121EB367A146}|Beto.Consola\\Beto.Consola.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.consola\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{368F2EB0-47A9-C6EC-7897-121EB367A146}|Beto.Consola\\Beto.Consola.csproj|solutionrelative:beto.consola\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|c:\\users\\chris\\onedrive\\documentos\\github\\beto-s-last-chance\\beto.motor\\finales\\alcanzabilidad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEF166CA-8523-D711-A871-CB19275D846B}|Beto.Motor\\Beto.Motor.csproj|solutionrelative:beto.motor\\finales\\alcanzabilidad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PruebasAutomata.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Pruebas\\PruebasAutomata.cs",
+              "RelativeDocumentMoniker": "Beto.Pruebas\\PruebasAutomata.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Pruebas\\PruebasAutomata.cs",
+              "RelativeToolTip": "Beto.Pruebas\\PruebasAutomata.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T06:16:51.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PruebasAlcanzabilidad.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Pruebas\\PruebasAlcanzabilidad.cs",
+              "RelativeDocumentMoniker": "Beto.Pruebas\\PruebasAlcanzabilidad.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Pruebas\\PruebasAlcanzabilidad.cs",
+              "RelativeToolTip": "Beto.Pruebas\\PruebasAlcanzabilidad.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T06:12:28.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Alcanzabilidad.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Finales\\Alcanzabilidad.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Finales\\Alcanzabilidad.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Finales\\Alcanzabilidad.cs",
+              "RelativeToolTip": "Beto.Motor\\Finales\\Alcanzabilidad.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T06:10:51.917Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Consola\\Program.cs",
+              "RelativeDocumentMoniker": "Beto.Consola\\Program.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Consola\\Program.cs",
+              "RelativeToolTip": "Beto.Consola\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T06:05:22.928Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Obligacion.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\Obligacion.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Nucleo\\Obligacion.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\Obligacion.cs",
+              "RelativeToolTip": "Beto.Motor\\Nucleo\\Obligacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:28.474Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Fase.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\Fase.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Nucleo\\Fase.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\Fase.cs",
+              "RelativeToolTip": "Beto.Motor\\Nucleo\\Fase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:27.916Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EstadoJuego.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\EstadoJuego.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Nucleo\\EstadoJuego.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\EstadoJuego.cs",
+              "RelativeToolTip": "Beto.Motor\\Nucleo\\EstadoJuego.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA7wBQAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:26.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Configuracion.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\Configuracion.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Nucleo\\Configuracion.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Nucleo\\Configuracion.cs",
+              "RelativeToolTip": "Beto.Motor\\Nucleo\\Configuracion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:26.268Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Transicion.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Narrativa\\Transicion.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Narrativa\\Transicion.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Narrativa\\Transicion.cs",
+              "RelativeToolTip": "Beto.Motor\\Narrativa\\Transicion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:24.796Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ReglasBeto.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Narrativa\\ReglasBeto.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Narrativa\\ReglasBeto.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Narrativa\\ReglasBeto.cs",
+              "RelativeToolTip": "Beto.Motor\\Narrativa\\ReglasBeto.cs",
+              "ViewState": "AgIAALIAAAAAAAAAAAAswMQAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:23.66Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AutomataNarrativo.cs",
+              "DocumentMoniker": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Narrativa\\AutomataNarrativo.cs",
+              "RelativeDocumentMoniker": "Beto.Motor\\Narrativa\\AutomataNarrativo.cs",
+              "ToolTip": "C:\\Users\\chris\\OneDrive\\Documentos\\GitHub\\beto-s-last-chance\\Beto.Motor\\Narrativa\\AutomataNarrativo.cs",
+              "RelativeToolTip": "Beto.Motor\\Narrativa\\AutomataNarrativo.cs",
+              "ViewState": "AgIAAE4AAAAAZ2ZmZuYWwGEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-16T05:59:20.484Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

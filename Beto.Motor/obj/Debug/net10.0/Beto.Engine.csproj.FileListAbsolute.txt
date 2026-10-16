@@ -1,0 +1,11 @@
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\bin\Debug\net10.0\Beto.Engine.deps.json
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\bin\Debug\net10.0\Beto.Engine.dll
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\bin\Debug\net10.0\Beto.Engine.pdb
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\Beto.Engine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\Beto.Engine.AssemblyInfoInputs.cache
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\Beto.Engine.AssemblyInfo.cs
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\Beto.Engine.csproj.CoreCompileInputs.cache
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\Beto.Engine.dll
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\refint\Beto.Engine.dll
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\Beto.Engine.pdb
+C:\Users\chris\source\repos\betosLastChance\Beto.Engine\obj\Debug\net10.0\ref\Beto.Engine.dll

@@ -1,0 +1,6 @@
+@betosLastChance_HostAddress = http://localhost:5280
+
+GET {{betosLastChance_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

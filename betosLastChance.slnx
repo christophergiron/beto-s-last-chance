@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Beto.Consola/Beto.Consola.csproj" />
+  <Project Path="Beto.Motor/Beto.Motor.csproj" />
+  <Project Path="Beto.Pruebas/Beto.Pruebas.csproj" />
+</Solution>

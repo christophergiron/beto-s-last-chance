@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "BetosLastChance",
+    "Projects": [
+      {
+        "Path": "Beto.Consola\\Beto.Consola.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Beto.Pruebas\\Beto.Pruebas.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
