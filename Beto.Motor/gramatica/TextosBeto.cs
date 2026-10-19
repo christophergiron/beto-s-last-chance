@@ -1,22 +1,19 @@
 ﻿using Beto.Motor.Nucleo;
-
 namespace Beto.Motor.Gramatica;
 
 public static class TextosBeto
 {
     private static readonly Lazy<GeneradorGLC> _gramatica = new(GeneradorGLC.DesdeRecursoEmbebido);
-
-    public const int ProfundidadEnJuego = 8;
+    public const int ProfundidadEnJuego = 4;
 
     public static GeneradorGLC Gramatica => _gramatica.Value;
-
     public static string? SimboloPara(AccionJugador accion) => accion switch
     {
-        AccionJugador.SalirConAmigos => "INVITACION",
-        AccionJugador.EstudiarConAmigos => "INVITACION_ESTUDIO",
-        AccionJugador.Estudiar => "MISION",
-        AccionJugador.TrabajarProyecto => "MENSAJE_PROFESOR",
-        AccionJugador.NoHacerNada => "MENSAJE_PROFESOR",
+        AccionJugador.Estudiar => "RESUMEN_ESTUDIAR",
+        AccionJugador.EstudiarConAmigos => "RESUMEN_ESTUDIAR_AMIGOS",
+        AccionJugador.SalirConAmigos => "RESUMEN_SALIR",
+        AccionJugador.TrabajarProyecto => "RESUMEN_PROYECTO",
+        AccionJugador.NoHacerNada => "RESUMEN_DESCANSO",
         _ => null
     };
 
@@ -26,3 +23,4 @@ public static class TextosBeto
         return simbolo is null ? null : Gramatica.Generar(simbolo, azar, ProfundidadEnJuego);
     }
 }
+

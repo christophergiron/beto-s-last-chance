@@ -4,9 +4,10 @@ using Xunit;
 
 public class PruebasGramatica
 {
+    static readonly string[] Resumenes =
+        { "RESUMEN_ESTUDIAR", "RESUMEN_ESTUDIAR_AMIGOS", "RESUMEN_SALIR", "RESUMEN_PROYECTO", "RESUMEN_DESCANSO" };
     static readonly string[] Entradas =
-        { "TEXTO_BETO", "INVITACION", "INVITACION_ESTUDIO", "MENSAJE_PROFESOR", "MISION" };
-
+        { "TEXTO_BETO", "RESUMEN_ESTUDIAR", "RESUMEN_ESTUDIAR_AMIGOS", "RESUMEN_SALIR", "RESUMEN_PROYECTO", "RESUMEN_DESCANSO" };
     static GeneradorGLC G => TextosBeto.Gramatica;
 
     [Fact]
@@ -93,7 +94,7 @@ public class PruebasGramatica
     [Fact]
     public void Un_limite_menor_al_minimo_se_rechaza()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => G.Generar("MISION", new Random(1), 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => G.Generar("RESUMEN_ESTUDIAR", new Random(1), 1));
     }
 
     [Fact]
@@ -105,7 +106,7 @@ public class PruebasGramatica
     [Fact]
     public void Acepta_el_simbolo_con_o_sin_signos_menor_y_mayor()
     {
-        Assert.Equal(G.Generar("MISION", new Random(7)), G.Generar("<MISION>", new Random(7)));
+        Assert.Equal(G.Generar("RESUMEN_SALIR", new Random(7)), G.Generar("<RESUMEN_SALIR>", new Random(7)));
     }
 
     static int ProfundidadDeAnidamiento(string texto, out bool equilibrado)
@@ -126,29 +127,29 @@ public class PruebasGramatica
     }
 
     [Fact]
-    public void MISION_es_recursiva()
+    public void TRABAJO_ESTUDIO_es_recursiva()
     {
-        Assert.True(G.EsRecursivo("MISION"));
-        Assert.Contains("MISION", G.Analizar().Recursivos);
+        Assert.True(G.EsRecursivo("TRABAJO_ESTUDIO"));
+        Assert.Contains("TRABAJO_ESTUDIO", G.Analizar().Recursivos);
         Assert.False(G.EsRecursivo("AMIGO"));
     }
 
     [Fact]
-    public void Hay_misiones_que_contienen_otras_misiones_a_varios_niveles()
+    public void Hay_trabajos_de_estudio_que_contienen_otros_a_varios_niveles()
     {
         int maximo = 0;
         for (int semilla = 0; semilla < 3000; semilla++)
         {
-            var texto = G.Generar("MISION", new Random(semilla));
+            var texto = G.Generar("TRABAJO_ESTUDIO", new Random(semilla));
             maximo = Math.Max(maximo, ProfundidadDeAnidamiento(texto, out _));
         }
         Assert.True(maximo >= 3, $"Anidamiento maximo observado: {maximo}");
     }
 
     [Fact]
-    public void Los_parentesis_y_corchetes_de_las_misiones_siempre_quedan_balanceados()
+    public void Los_parentesis_de_los_resumenes_siempre_quedan_balanceados()
     {
-        foreach (var simbolo in new[] { "MISION", "MENSAJE_PROFESOR", "TEXTO_BETO" })
+        foreach (var simbolo in new[] { "TRABAJO_ESTUDIO", "RESUMEN_ESTUDIAR", "TEXTO_BETO" })
             for (int semilla = 0; semilla < 1000; semilla++)
             {
                 var texto = G.Generar(simbolo, new Random(semilla));
@@ -160,20 +161,52 @@ public class PruebasGramatica
     [Fact]
     public void Con_la_profundidad_minima_la_recursion_no_se_dispara()
     {
-        int minima = G.AlturaMinima("MISION")!.Value;
+        int minima = G.AlturaMinima("TRABAJO_ESTUDIO")!.Value;
         for (int semilla = 0; semilla < 500; semilla++)
         {
-            var texto = G.Generar("MISION", new Random(semilla), minima);
+            var texto = G.Generar("TRABAJO_ESTUDIO", new Random(semilla), minima);
             Assert.DoesNotContain("(", texto);
-            Assert.DoesNotContain("[", texto);
+        }
+    }
+
+    [Fact]
+    public void Con_el_limite_del_juego_un_resumen_lleva_como_maximo_un_parentesis_anidado()
+    {
+        for (int semilla = 0; semilla < 1000; semilla++)
+        {
+            var texto = G.Generar("RESUMEN_ESTUDIAR", new Random(semilla), TextosBeto.ProfundidadEnJuego);
+            Assert.True(ProfundidadDeAnidamiento(texto, out _) <= 1, texto);
+        }
+    }
+
+    [Fact]
+    public void Todo_resumen_empieza_en_mayuscula_y_termina_en_punto()
+    {
+        foreach (var simbolo in Resumenes)
+            for (int semilla = 0; semilla < 300; semilla++)
+            {
+                var texto = G.Generar(simbolo, new Random(semilla));
+                Assert.True(char.IsUpper(texto[0]), texto);
+                Assert.EndsWith(".", texto);
+            }
+    }
+
+    [Fact]
+    public void Los_grupos_de_amigos_nunca_repiten_un_nombre()
+    {
+        for (int semilla = 0; semilla < 500; semilla++)
+        {
+            var nombres = G.Generar("GRUPO", new Random(semilla))
+                           .Replace(" y ", ", ").Split(", ");
+            Assert.Equal(nombres.Length, nombres.Distinct().Count());
         }
     }
 
     [Fact]
     public void La_traza_empieza_en_el_simbolo_y_termina_en_el_texto()
     {
-        var r = G.Derivar("INVITACION", new Random(3), conTraza: true);
-        Assert.Equal("<INVITACION>", r.Pasos[0].Forma);
+        var r = G.Derivar("RESUMEN_SALIR", new Random(3), conTraza: true);
+        Assert.Equal("<RESUMEN_SALIR>", r.Pasos[0].Forma);
         Assert.Equal(r.Texto, r.Pasos[^1].Forma);
         Assert.True(r.Pasos.Count > 1);
     }
@@ -181,7 +214,7 @@ public class PruebasGramatica
     [Fact]
     public void Sin_pedir_traza_la_lista_de_pasos_esta_vacia()
     {
-        Assert.Empty(G.Derivar("INVITACION", new Random(3)).Pasos);
+        Assert.Empty(G.Derivar("RESUMEN_SALIR", new Random(3)).Pasos);
     }
 
     [Fact]
@@ -196,7 +229,6 @@ public class PruebasGramatica
             }
     }
 
-    //Integracion con el motor
     [Fact]
     public void Toda_accion_del_jugador_tiene_un_simbolo_definido_y_genera_texto()
     {
@@ -216,7 +248,6 @@ public class PruebasGramatica
         Assert.Null(TextosBeto.Generar(AccionJugador.Epsilon, new Random(1)));
     }
 
-    //Detector de gramaticas defectuosas
     [Fact]
     public void Detecta_no_terminales_sin_definir()
     {

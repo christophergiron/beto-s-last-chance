@@ -12,62 +12,73 @@
 # ============================================================================
 
 #Axioma
-<TEXTO_BETO> ::= <INVITACION>
-              | <INVITACION_ESTUDIO>
-              | <MENSAJE_PROFESOR>
-              | <MISION>
+<TEXTO_BETO> ::= <RESUMEN_ESTUDIAR>
+              | <RESUMEN_ESTUDIAR_AMIGOS>
+              | <RESUMEN_SALIR>
+              | <RESUMEN_PROYECTO>
+              | <RESUMEN_DESCANSO>
 
-#Invitaciones de amigos
-<INVITACION> ::= <AMIGO> " te invita a " <PLAN> " en " <LUGAR>
-              | <PAREJA> " te invitan a " <PLAN> " en " <LUGAR> <HORA>
-              | <AMIGO> " te escribe: " <FRASE_AMIGO>
+#Estudiar
+<RESUMEN_ESTUDIAR> ::= <MOMENTO_DIA> <TRABAJO_ESTUDIO> "."
 
-<INVITACION_ESTUDIO> ::= <AMIGO> " propone estudiar " <MATERIA> " en " <LUGAR_ESTUDIO>
-                      | <AMIGO> " te pide ayuda con " <TEMA> ", quedan en " <LUGAR_ESTUDIO>
+# TRABAJO_ESTUDIO es recursiva: la ultima alternativa contiene otro trabajo de
+# estudio entre parentesis ("... (y de paso ...)"). Cada nivel abre un
+# parentesis que hay que cerrar despues, y eso hace el lenguaje no regular.
+<TRABAJO_ESTUDIO> ::= "realizaste " <CANTIDAD> " ejercicios de " <MATERIA>
+                   | "repasaste los apuntes de " <MATERIA>
+                   | "leiste un capitulo de " <MATERIA>
+                   | "practicaste " <TEMA> " en " <LUGAR_ESTUDIO>
+                   | "avanzaste con " <TEMA> " (y de paso " <TRABAJO_ESTUDIO> ")"
 
-<FRASE_AMIGO> ::= "Vamos a " <PLAN> " en " <LUGAR> ", te apuntas?"
-               | "Hoy toca " <PLAN> "! Nos vemos en " <LUGAR> <HORA> "."
+#Estudiar con amigos
+<RESUMEN_ESTUDIAR_AMIGOS> ::= <MOMENTO_DIA> "estudiaste " <MATERIA> " con " <GRUPO> " en " <LUGAR_ESTUDIO> "."
+                           | <MOMENTO_DIA> "resolviste " <CANTIDAD> " ejercicios de " <MATERIA> " con " <GRUPO> "."
+                           | <MOMENTO_DIA> "te juntaste con " <GRUPO> " a repasar " <TEMA> " en " <LUGAR_ESTUDIO> "."
 
-<AMIGO>  ::= "Pedro" | "Ana" | "Luis" | "Marta" | "Sofia"
-<PAREJA> ::= "Pedro y Ana" | "Ana y Luis" | "Luis y Pedro" | "Marta y Sofia"
-<PLAN>   ::= "jugar" | "comer" | "pasear" | "ver una pelicula" | "tomar un cafe"
-<LUGAR>  ::= "la cafeteria" | "el parque" | "la cancha" | "el cine"
-<LUGAR_ESTUDIO> ::= "la biblioteca" | "la cafeteria" | "el aula 3" | "la sala de computo"
-<HORA>   ::= " despues de clases" | " al mediodia" | " a las cuatro" | " por la noche"
+#Salir con amigos
+<RESUMEN_SALIR> ::= <MOMENTO_DIA> "saliste con " <GRUPO> " a " <PLAN> " en " <LUGAR> "."
+                 | <MOMENTO_DIA> "te escapaste con " <GRUPO> " a " <PLAN> " en " <LUGAR> ", pero " <REMORDIMIENTO> "."
 
-#Mensajes del profesor
-<MENSAJE_PROFESOR> ::= <PROFESOR> " dice: " <AVISO>
-                    | <PROFESOR> " te llama aparte: Beto, " <OBSERVACION> ", " <CONSEJO> "."
-                    | <PROFESOR> " te encarga una mision: " <MISION>
+<REMORDIMIENTO> ::= "el tiempo se te fue volando"
+                 | "los pendientes seguian ahi"
+                 | "volviste tarde a casa"
+                 | "ya empezaste a pensar en el examen"
 
-<PROFESOR> ::= "El profesor Mendez" | "La profesora Ortiz" | "El ingeniero Salazar"
+#Proyecto
+<RESUMEN_PROYECTO> ::= <MOMENTO_DIA> "trabajaste en el proyecto: " <AVANCE> "."
+                    | <MOMENTO_DIA> "te quedaste hasta tarde con el proyecto: " <AVANCE> "."
 
-<AVISO> ::= "entreguen el proyecto " <FECHA> "."
-         | "el examen final incluye " <TEMA> "."
-         | "hay tutoria de " <MATERIA> " en " <LUGAR_ESTUDIO> " " <FECHA> "."
+<AVANCE> ::= "terminaste " <PARTE_PROYECTO>
+          | "corregiste errores en " <PARTE_PROYECTO>
+          | "avanzaste con " <PARTE_PROYECTO>
 
-<OBSERVACION> ::= "te noto cansado"
-               | "vas atrasado con el proyecto"
-               | "faltaste a la ultima clase"
-               | "vas bien con " <TEMA>
+<PARTE_PROYECTO> ::= "la interfaz" | "la base de datos" | "la documentacion" | "las pruebas" | "el informe final"
 
-<CONSEJO> ::= "descansa un poco"
-           | "repasa " <TEMA>
-           | "pide ayuda a " <AMIGO>
-           | "no dejes todo para el final"
+#Descanso
+<RESUMEN_DESCANSO> ::= <MOMENTO_DIA> <OCIO_SOLO> "."
+                    | <MOMENTO_DIA> <OCIO_SOLO> ", y despues " <SENSACION> "."
 
-<FECHA> ::= "el viernes" | "el lunes" | "esta semana" | "antes del dia 15"
+<OCIO_SOLO> ::= "dormiste hasta tarde"
+             | "viste videos sin parar"
+             | "te quedaste mirando el techo"
+             | "jugaste videojuegos solo en casa"
+             | "no hiciste nada de provecho"
 
-#Misiones secundarias
-#MISION es recursiva: las dos ultimas alternativas contienen otras misiones entre corchetes o parentesis balanceados.
-<MISION> ::= "Consigue los apuntes de " <MATERIA> " con " <AMIGO>
-          | "Repasa " <TEMA> " antes de " <MOMENTO>
-          | "Resuelve " <CANTIDAD> " ejercicios de " <MATERIA>
-          | "Para ayudar a " <AMIGO> ", primero cumple esto: (" <MISION> ")"
-          | "Mision en dos pasos: [" <MISION> "] y luego [" <MISION> "]"
+<SENSACION> ::= "te sentiste culpable" | "se te paso el tiempo" | "al menos descansaste"
 
-#Cosas varias
-<MATERIA>  ::= "Calculo" | "Fisica" | "Programacion" | "Algebra Lineal"
+#Vocabulario
+<MOMENTO_DIA> ::= "Hoy " | "Por la manana " | "Por la tarde " | "Al caer la noche "
+
+<CANTIDAD> ::= "5" | "8" | "10" | "12" | "15" | "20"
+<MATERIA>  ::= "Calculo" | "Fisica" | "Programacion" | "Algebra" | "Bases de Datos"
 <TEMA>     ::= "las derivadas" | "las integrales" | "la recursion" | "los punteros" | "las matrices"
-<MOMENTO>  ::= "la entrega" | "que llegue el examen" | "la tutoria" | "que acabe la semana"
-<CANTIDAD> ::= "tres" | "cinco" | "diez"
+<LUGAR_ESTUDIO> ::= "la biblioteca" | "la cafeteria" | "el aula 3" | "la sala de computo"
+
+# Los grupos se escriben completos (sin recursion) para que un amigo nunca se
+<GRUPO>  ::= <AMIGO> | <PAREJA> | <TRIO>
+<AMIGO>  ::= "Pedro" | "Ana" | "Luis" | "Marta" | "Sofia"
+<PAREJA> ::= "Pedro y Luis" | "Ana y Marta" | "Luis y Sofia" | "Pedro y Ana"
+<TRIO>   ::= "Pedro, Luis y Ana" | "Ana, Marta y Sofia" | "Pedro, Ana y Sofia" | "Luis, Marta y Sofia"
+
+<PLAN>  ::= "jugar" | "comer" | "pasear" | "ver una pelicula" | "tomar un cafe"
+<LUGAR> ::= "la cafeteria" | "el parque" | "la cancha" | "el cine"
