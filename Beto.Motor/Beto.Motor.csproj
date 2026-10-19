@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="gramatica\gramatica.bnf" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Gramatica\gramatica.bnf" LogicalName="Beto.Motor.Gramatica.gramatica.bnf" />
+	</ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Mundo\" />
     <Folder Include="Combate\" />
-    <Folder Include="Gramatica\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Beto.Motor.Finales;
+using Beto.Motor.Gramatica;
 using Beto.Motor.Narrativa;
 using Beto.Motor.Nucleo;
 
@@ -12,11 +13,24 @@ if (args.Length > 0 && args[0] == "alcanzabilidad")
     return;
 }
 
+//Conexión con la gramatica
+if (args.Length > 0 && args[0] == "gramatica")
+{
+    var simbolo = args.Length > 1 ? args[1] : "TEXTO_BETO";
+    int semilla = args.Length > 2 && int.TryParse(args[2], out var valor) ? valor : 1;
+    bool conTraza = args.Contains("traza");
+    var res = TextosBeto.Gramatica.Derivar(simbolo, new Random(semilla), conTraza: conTraza);
+    if (conTraza) foreach (var linea in res.Pasos) Console.WriteLine(linea);
+    Console.WriteLine(res.Texto);
+    return;
+}
+
 // Modo juego
 var automata = ReglasBeto.Construir(semilla: Environment.TickCount);
 var estado = new EstadoJuego();
 foreach (var paso in automata.Estabilizar(estado)) { Mostrar(paso); estado = paso.Despues; }
 
+var azarTexto = new Random();
 while (!estado.EsFinal)
 {
     var pila = string.Join(", ", estado.Pila.Select(o => $"{o.Nombre}({o.Turnos})"));
@@ -30,6 +44,8 @@ while (!estado.EsFinal)
     if (!int.TryParse(Console.ReadLine(), out var k) || k < 1 || k > opciones.Count) continue;
 
     foreach (var paso in automata.Avanzar(estado, opciones[k - 1])) { Mostrar(paso); estado = paso.Despues; }
+    var texto = TextosBeto.Generar(opciones[k - 1], azarTexto);
+    if (texto is not null) Console.WriteLine($"  \"{texto}\"");
 }
 Console.WriteLine($"\nFIN: {estado.Fase}");
 
