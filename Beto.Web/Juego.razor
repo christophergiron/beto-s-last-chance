@@ -1,0 +1,314 @@
+@inject IJSRuntime JS
+
+<header class="barra">
+    <img class="logo" src="assets/ui/logo.png" alt="Beto's Last Chance" />
+    <h1>Beto's Last Chance</h1>
+    <nav class="controles">
+        <button type="button" @onclick="Nueva">Partida nueva</button>
+        <button type="button" @onclick="Guardar">Guardar partida</button>
+        <button type="button" @onclick="Cargar">Cargar partida</button>
+    </nav>
+</header>
+
+@if (_error is not null)
+{
+    <div class="aviso" role="status">@_error</div>
+}
+else if (_info is not null)
+{
+    <div class="aviso info" role="status">@_info</div>
+}
+
+<main class="juego">
+    @if (_verEvento)
+    {
+        <div class="evento-fondo" role="dialog" aria-modal="true" aria-label="Día 14">
+            <div class="evento panel">
+                <h3>Día @(Configuracion.DiaEvento)</h3>
+                <img src="assets/eventos/evento_dia14.gif" alt="Evento del día 14" />
+                <p>Último empujón antes de la entrega: doble turno y el cansancio baja un @(Configuracion.ReduccionCansancioDiaEvento)%.</p>
+                <button type="button" @onclick="() => _verEvento = false">Continuar</button>
+            </div>
+        </div>
+    }
+
+    <section class="escena" style="@EstiloEscena" aria-label="Escena">
+        <div class="escena-fase">
+            <span class="chip">@Codigo</span>
+            <h2>@(_escena is { } esc && !_estado.EsFinal ? Etiqueta(esc) : NombreFase)</h2>
+            <p class="texto-placeholder">@(_estado.EsFinal ? TextoFinal : _texto ?? (_estado.Turno <= 1 ? Intro : "(texto narrativo pendiente)"))</p>
+        </div>
+        @if (_escena is null)
+        {
+            <img class="beto" src="@RutaSprite" alt="Beto" />
+        }
+        @if (_estado.EsFinal)
+        {
+            <div class="final">FIN — @NombreFase</div>
+        }
+    </section>
+
+    <section class="hud panel" aria-label="Registros">
+        <h3>Registros</h3>
+        <div class="medidor"><img class="ico" src="assets/ui/icono_preparacion.png" alt="" /><span>Preparación</span><div class="barra-medidor"><i style="width:@(Pct(_estado.Preparacion))%"></i></div><b>@_estado.Preparacion</b></div>
+        <div class="medidor"><img class="ico" src="assets/ui/icono_riesgo_academico.png" alt="" /><span>Riesgo académico</span><div class="barra-medidor"><i class="riesgo" style="width:@(Pct(_estado.RiesgoAcademico))%"></i></div><b>@_estado.RiesgoAcademico</b></div>
+        <div class="medidor"><img class="ico" src="assets/ui/icono_riesgo_salud.png" alt="" /><span>Riesgo de salud</span><div class="barra-medidor"><i class="riesgo" style="width:@(Pct(_estado.RiesgoSalud))%"></i><u class="umbral" title="Umbral del evento de salud"></u></div><b>@_estado.RiesgoSalud</b></div>
+        <div class="medidor"><img class="ico" src="assets/ui/icono_turnos.png" alt="" /><span>Turnos restantes</span><div></div><b>@_estado.TurnosRestantes</b></div>
+        <div class="medidor"><img class="ico" src="assets/ui/icono_proyecto.png" alt="" /><span>Proyecto</span><div></div><b>@(_estado.TurnosProyecto)/@(Configuracion.TurnosProyectoNecesarios)</b></div>
+    </section>
+
+    <section class="acciones panel" aria-label="Acciones">
+        <h3>Acciones y pila</h3>
+        <div class="acciones-lista">
+            @foreach (var a in Disponibles)
+            {
+                var accion = a;
+                <button type="button" class="@(_estado.Bloqueado ? "pierde" : "")" @onclick="() => Jugar(accion)">
+                    <img src="@RutaAccion(accion)" alt="" />@Etiqueta(accion)
+                    @if (_estado.Bloqueado)
+                    {
+                        <small>pierde el turno</small>
+                    }
+                </button>
+            }
+            @if (_estado.EsFinal)
+            {
+                <p class="ayuda">La partida terminó. Empieza una nueva o carga un guardado.</p>
+            }
+        </div>
+        <h4 class="subtitulo">Pila de obligaciones</h4>
+        <p class="ayuda">El jugador solo avanza si el <b>tope</b> lo permite. Agotamiento y Recuperacion bloquean turnos.</p>
+        <ol class="pila-lista" aria-live="polite">
+            @if (_estado.Pila.IsEmpty)
+            {
+                <li class="vacia">Pila vacía (⊥): no quedan obligaciones</li>
+            }
+            else
+            {
+                foreach (var (o, i) in Celdas)
+                {
+                    <li class="@ClaseCelda(o, i)" style="@EstiloPila(o)">
+                        <span>@o.Nombre</span>
+                        @if (o.Turnos > 0)
+                        {
+                            <span class="turnos">@TextoTurnos(o)</span>
+                        }
+                    </li>
+                }
+            }
+        </ol>
+        <p class="estado-tope @(_estado.Bloqueado ? "bloqueado" : "")">@TextoTope</p>
+    </section>
+</main>
+
+@code {
+    //dibuja el estado y llama al autómata.
+    AutomataNarrativo _automata = ReglasBeto.Construir(Random.Shared.Next());
+    EstadoJuego _estado = new();
+    readonly List<string> _log = new();
+    readonly Random _azar = new();
+    const string ClaveGuardado = "beto.partida"; // autoguardado
+    const string ClaveManual = "beto.manual";    // botón Guardar partida
+    AccionJugador? _escena; // escena salir con amigps
+    string? _error;
+    string? _info;
+    string? _texto;
+    bool _verEvento; // pantalla del evento del día 14 
+    const string Intro = "Día 1. Quedan 14 días para entregar el proyecto de Autómatas y después vienen los finales. Beto lleva semanas diciendo «empiezo mañana»… y hoy, por fin, es mañana. Elige bien cómo gastar cada turno.";
+    string _json = "";
+
+    // Al abrir la página se recupera la partida guardada en el navegador
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var json = await JS.InvokeAsync<string?>("localStorage.getItem", ClaveGuardado);
+            if (!string.IsNullOrEmpty(json))
+            {
+                _automata = ReglasBeto.Construir(Random.Shared.Next());
+                _estado = GuardadoPartida.Deserializar(json);
+                _json = GuardadoPartida.Serializar(_estado);
+                _info = "Partida recuperada.";
+                if (_estado.EsFinal) _texto = TextoFinal;
+                return;
+            }
+        }
+        catch (Exception) { } // guardado corrupto o localStorage bloqueado
+        await Nueva();
+    }
+
+    async Task Persistir()
+    {
+        try { await JS.InvokeVoidAsync("localStorage.setItem", ClaveGuardado, _json); }
+        catch (Exception) { _error = "No se pudo guardar en el navegador (¿almacenamiento bloqueado?)."; }
+    }
+
+    async Task Nueva()
+    {
+        _automata = ReglasBeto.Construir(Random.Shared.Next());
+        _estado = new EstadoJuego();
+        _log.Clear();
+        _error = null;
+        _info = null;
+        _texto = null;
+        _escena = null;
+        _verEvento = false;
+        Aplicar(_automata.Estabilizar(_estado));
+        await Persistir();
+    }
+
+    async Task Jugar(AccionJugador accion)
+    {
+        if (_estado.EsFinal || !_automata.Disponibles(_estado).Contains(accion)) return;
+        _error = null;
+        _info = null;
+        var diaAntes = _estado.Turno;
+        var pasos = _automata.Avanzar(_estado, accion);
+        Aplicar(pasos);
+        if (diaAntes < Configuracion.DiaEvento && _estado.Turno >= Configuracion.DiaEvento) _verEvento = true;
+        // Si el turno se perdió por una obligación, la acción no ocurrió
+        _escena = accion == AccionJugador.SalirConAmigos && pasos[0].Tomada.Etiqueta == accion.ToString() ? accion : null;
+        try { _texto = TextosBeto.Generar(accion, _azar); }
+        catch (Exception ex) { _texto = null; _error = "La gramática no cargó: " + ex.Message; } // el juego sigue sin texto
+        if (_estado.EsFinal) _texto = TextoFinal; // en un final no se muestra el texto de la última acción
+        await Persistir();
+    }
+
+    // Guardado manual: una ranura propia en el navegador, distinta del autoguardado de cada acción.
+    async Task Guardar()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("localStorage.setItem", ClaveManual, _json);
+            _error = null;
+            _info = "Partida guardada.";
+        }
+        catch (Exception) { _error = "No se pudo guardar en el navegador (¿almacenamiento bloqueado?)."; }
+    }
+
+    async Task Cargar()
+    {
+        try
+        {
+            var json = await JS.InvokeAsync<string?>("localStorage.getItem", ClaveManual);
+            if (string.IsNullOrEmpty(json)) { _info = null; _error = "No hay ninguna partida guardada."; return; }
+            _estado = GuardadoPartida.Deserializar(json);
+            _log.Clear();
+            _error = null;
+            _info = "Partida cargada.";
+            _texto = _estado.EsFinal ? TextoFinal : null;
+            _escena = null;
+            _verEvento = false;
+            _json = GuardadoPartida.Serializar(_estado);
+            await Persistir();
+        }
+        catch (InvalidDataException ex) { _info = null; _error = ex.Message; }
+        catch (JSException) { _info = null; _error = "No se pudo leer el guardado del navegador."; }
+    }
+
+    void Aplicar(IEnumerable<RegistroPaso> pasos)
+    {
+        foreach (var p in pasos)
+        {
+            _estado = p.Despues;
+            var entrada = p.Entrada == AccionJugador.Epsilon ? "ε" : p.Entrada.ToString();
+            _log.Insert(0, $"{entrada}: {p.Origen} → {p.Despues.Fase}  [{p.Tomada.Etiqueta}]");
+        }
+        _json = GuardadoPartida.Serializar(_estado);
+    }
+
+    IReadOnlyList<AccionJugador> Disponibles =>
+        _estado.EsFinal ? Array.Empty<AccionJugador>() : _automata.Disponibles(_estado);
+
+    IEnumerable<(Obligacion o, int i)> Celdas => _estado.Pila.Select((o, i) => (o, i)); 
+
+    static int Pct(int valor) => Math.Clamp(valor, 0, 100);
+
+    static string ClaseCelda(Obligacion o, int i) =>
+        "celda" + (o.Turnos > 0 ? " bloquea" : "") + (i == 0 ? " tope" : "");
+
+    static string EstiloPila(Obligacion o) =>
+        $"background-image:url('assets/pila/obligacion_{o.Nombre}.png')";
+
+    static string TextoTurnos(Obligacion o) => o.Turnos == 1 ? "1 turno" : $"{o.Turnos} turnos";
+
+    static string RutaAccion(AccionJugador a) => $"assets/acciones/accion_{a}.png";
+
+    static string Etiqueta(AccionJugador a) => a switch
+    {
+        AccionJugador.Estudiar => "Estudiar",
+        AccionJugador.NoHacerNada => "No hacer nada",
+        AccionJugador.SalirConAmigos => "Salir con amigos",
+        AccionJugador.TrabajarProyecto => "Trabajar en el proyecto",
+        AccionJugador.EstudiarConAmigos => "Estudiar con amigos",
+        _ => a.ToString()
+    };
+
+    // Texto de los finales
+    string TextoFinal => _estado.Fase switch
+    {
+        Fase.F1_AprobacionMinima => "Felicidades, te graduaste, aunque no fue suficiente: terminaste como un godín con un trabajo de 7 a 6.",
+        Fase.F2_MaximoDesempeno => "¡Lo lograste! Recuperaste un semestre que parecía acabado. Demostraste tan buen desempeño académico que terminaste como dev indie, y ahora puedes vivir una vida cómoda.",
+        Fase.F3_Reprobacion => "Reprobaste. Tus opciones fueron casi nulas por tu poco desempeño académico, y terminaste trabajando en una cadena de comida rápida.",
+        Fase.F4_EventoSalud => "Te sobreesforzaste tanto que acabaste teniendo un colapso. Para tu mala suerte fue fatal y falleciste.",
+        Fase.F5_ExcesoOcio => "Al parecer dormir te sentó bien, tan bien que dormiste para siempre.",
+        _ => ""
+    };
+
+    string Codigo => _estado.Fase.ToString().Split('_')[0];
+
+    string NombreFase => _estado.Fase switch
+    {
+        Fase.S1_Preparacion => "Preparación",
+        Fase.S2_TrabajoProyecto => "Trabajando en el proyecto",
+        Fase.S3_EntregaProyecto => "Entrega del proyecto",
+        Fase.S4_PreparacionFinales => "Preparación de finales",
+        Fase.S5_ExamenFinal => "Examen final",
+        Fase.S7_TurnosAdicionales => "Turnos adicionales",
+        Fase.S8_SegundoIntento => "Segundo intento",
+        Fase.F1_AprobacionMinima => "Final: aprobación mínima",
+        Fase.F2_MaximoDesempeno => "Final: máximo desempeño",
+        Fase.F3_Reprobacion => "Final: reprobación",
+        Fase.F4_EventoSalud => "Final: evento de salud",
+        Fase.F5_ExcesoOcio => "Final: exceso de ocio",
+        _ => _estado.Fase.ToString()
+    };
+
+    string EstiloEscena => _escena is { } esc && !_estado.EsFinal
+        ? $"background-image:url('assets/escenas/escena_{esc}.png')"
+        : "background-image:url('assets/" + (_estado.Fase switch
+    {
+        Fase.S2_TrabajoProyecto => "fondos/fondo_S2_proyecto",
+        Fase.S3_EntregaProyecto => "fondos/escena_S3_entrega",
+        Fase.S4_PreparacionFinales => "fondos/fondo_S4_finales",
+        Fase.S5_ExamenFinal or Fase.S8_SegundoIntento => "fondos/escena_S5_examen",
+        Fase.S7_TurnosAdicionales => "fondos/fondo_S7_extra",
+        Fase.F1_AprobacionMinima => "finales/final_F1_aprobacion_minima",
+        Fase.F2_MaximoDesempeno => "finales/final_F2_maximo_desempeno",
+        Fase.F3_Reprobacion => "finales/final_F3_reprobacion",
+        Fase.F4_EventoSalud => "finales/final_F4_evento_salud",
+        Fase.F5_ExcesoOcio => "finales/final_F5_exceso_ocio",
+        _ => "fondos/fondo_S1_preparacion"
+    }) + ".png')";
+
+    string RutaSprite
+    {
+        get
+        {
+            var tope = _estado.Tope?.Nombre;
+            var sprite =
+                _estado.Fase is Fase.F1_AprobacionMinima or Fase.F2_MaximoDesempeno ? "beto_feliz"
+                : _estado.Fase is Fase.F4_EventoSalud or Fase.F5_ExcesoOcio ? "beto_enfermo"
+                : _estado.EsFinal ? "beto_triste"
+                : tope == "Agotamiento" ? "beto_cansado"
+                : tope == "Recuperacion" ? "beto_enfermo"
+                : "beto_normal";
+            return $"assets/personaje/{sprite}.png";
+        }
+    }
+
+    string TextoTope =>
+        _estado.EsFinal || _estado.Tope is not { } t ? ""
+        : _estado.Bloqueado ? $"El tope ({t.Nombre}) bloquea: cualquier acción pierde el turno."
+        : $"El tope ({t.Nombre}) no bloquea.";
+}

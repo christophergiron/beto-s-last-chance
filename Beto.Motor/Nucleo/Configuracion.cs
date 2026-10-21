@@ -3,6 +3,9 @@
 public static class Configuracion
 {
     public const int TurnosPreparacion = 14;
+    public const int DiaEvento = 14;                   // día del evento: bonificación de salud, doble turno y menos cansancio
+    public const int TurnosDiaEvento = 2;              // doble accion del dia 14
+    public const int ReduccionCansancioDiaEvento = 35; // % que baja el riesgo de salud al llegar al día del evento
     public const int TurnosExamen = 3;
     public const int TurnosExtra = 7;
     public const int TurnosProyectoNecesarios = 4;

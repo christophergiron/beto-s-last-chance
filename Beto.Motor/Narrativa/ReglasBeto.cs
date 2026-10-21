@@ -6,14 +6,14 @@ namespace Beto.Motor.Narrativa;
 
 public static class ReglasBeto
 {
-    // (preparación, riesgo académico, riesgo de salud)
+    // preparación, riesgo académico, riesgo de salud
     static readonly Dictionary<AccionJugador, (int Prep, int Acad, int Salud)> Efectos = new()
     {
-        [Estudiar] = (8, -3, 1),
-        [NoHacerNada] = (0, 8, -5),
-        [SalirConAmigos] = (0, 5, -3),
-        [TrabajarProyecto] = (4, -10, 5),
-        [EstudiarConAmigos] = (16, -5, -2),
+        [Estudiar] = (8, -3, 6),
+        [NoHacerNada] = (0, 8, -8),
+        [SalirConAmigos] = (0, 5, 0),
+        [TrabajarProyecto] = (4, -10, 8),
+        [EstudiarConAmigos] = (16, -5, 1),
     };
 
     static bool EnExamenes(Fase f) => f is S4_PreparacionFinales or S7_TurnosAdicionales;
@@ -25,8 +25,19 @@ public static class ReglasBeto
 
     static EstadoJuego AvanzarTurno(EstadoJuego e)
     {
-        var n = e with { Turno = e.Turno + 1, TurnosRestantes = e.TurnosRestantes - 1 };
-        if (n.Turno == 14) n = n with { RiesgoSalud = n.RiesgoSalud - 25 }; // evento del día 14
+   
+        var primerTurnoDia = e.Turno == Configuracion.DiaEvento && e.TurnosRestantes == Configuracion.TurnosDiaEvento
+                             && e.Fase is S1_Preparacion or S2_TrabajoProyecto;
+        var n = e with { Turno = primerTurnoDia ? e.Turno : e.Turno + 1, TurnosRestantes = e.TurnosRestantes - 1 };
+        if (n.Turno == Configuracion.DiaEvento && e.Turno == Configuracion.DiaEvento - 1)
+        {
+            n = n with { RiesgoSalud = n.RiesgoSalud - 25 }; 
+            n = n with
+            {
+                RiesgoSalud = n.RiesgoSalud * (100 - Configuracion.ReduccionCansancioDiaEvento) / 100,
+                TurnosRestantes = n.TurnosRestantes + Configuracion.TurnosDiaEvento - 1 
+            };
+        }
         return n.Acotar();
     }
 
@@ -81,7 +92,7 @@ public static class ReglasBeto
                     Prioridad: 90));
         }
 
-        // ---------- δ sobre las acciones del jugador ----------
+        //δ sobre las acciones del jugador 
         foreach (var x in new[] { Estudiar, NoHacerNada, SalirConAmigos })
         {
             Jugable(S1_Preparacion, x, _ => true, S1_Preparacion);
@@ -99,7 +110,7 @@ public static class ReglasBeto
                 Jugable(f, x, e => e.ProyectoEntregado, f);
         }
 
-        // ---------- ε-transiciones: eventos en fases jugables ----------
+        //ε-transiciones: eventos en fases jugables
         foreach (var f in new[] { S1_Preparacion, S2_TrabajoProyecto, S4_PreparacionFinales, S7_TurnosAdicionales })
         {
             automata.Agregar(f, Epsilon, new Transicion("Exceso de ocio", F5_ExcesoOcio, e => e,
@@ -122,7 +133,7 @@ public static class ReglasBeto
                 e => e.TurnosRestantes <= 0 && e.Tope?.Nombre == "Entrega"));
         }
 
-        // ---------- ε-transiciones: calendario y resultados ----------
+        //ε-transiciones: calendario y resultados
         automata.Agregar(S0_Inicio, Epsilon, new Transicion("Inicio", S1_Preparacion, e =>
             Apilar(Apilar(e with { Turno = 1, TurnosRestantes = Configuracion.TurnosPreparacion }, "Examen", 0),
                    "Entrega", 0)));

@@ -1,0 +1,20 @@
+{
+  "Version": 1,
+  "Fase": "S4_PreparacionFinales",
+  "Turno": 15,
+  "TurnosRestantes": 1,
+  "Preparacion": 20,
+  "RiesgoAcademico": 60,
+  "RiesgoSalud": 10,
+  "TurnosProyecto": 4,
+  "ProyectoConsecutivo": 0,
+  "OcioConsecutivo": 0,
+  "InactivoConsecutivo": 0,
+  "ProyectoEntregado": true,
+  "Pila": [
+    {
+      "Nombre": "Examen",
+      "Turnos": 0
+    }
+  ]
+}
