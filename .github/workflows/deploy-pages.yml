@@ -1,0 +1,60 @@
+name: Publicar Beto en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v6
+
+      - name: Instalar .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Configurar Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Ejecutar pruebas
+        run: dotnet test Beto.Pruebas/Beto.Pruebas.csproj --configuration Release
+
+      - name: Compilar la web para publicar
+        run: dotnet publish Beto.Web/Beto.Web.csproj --configuration Release --output artifacts/site
+
+      - name: Preparar la ruta de GitHub Pages
+        shell: pwsh
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: ./scripts/Prepare-GitHubPages.ps1 -PublishPath artifacts/site/wwwroot -BasePath $env:PAGES_BASE_PATH
+
+      - name: Subir archivos de la web
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: artifacts/site/wwwroot
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
