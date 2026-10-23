@@ -3,7 +3,7 @@
 <header class="barra">
     <img class="logo" src="assets/ui/logo.png" alt="Beto's Last Chance" />
     <h1>Beto's Last Chance</h1>
-    <nav class="controles">
+    <nav class="controles" aria-label="Controles de partida">
         <button type="button" @onclick="Nueva">Partida nueva</button>
         <button type="button" @onclick="Guardar">Guardar partida</button>
         <button type="button" @onclick="Cargar">Cargar partida</button>
@@ -53,8 +53,8 @@ else if (_info is not null)
         <div class="medidor"><img class="ico" src="assets/ui/icono_preparacion.png" alt="" /><span>Preparación</span><div class="barra-medidor"><i style="width:@(Pct(_estado.Preparacion))%"></i></div><b>@_estado.Preparacion</b></div>
         <div class="medidor"><img class="ico" src="assets/ui/icono_riesgo_academico.png" alt="" /><span>Riesgo académico</span><div class="barra-medidor"><i class="riesgo" style="width:@(Pct(_estado.RiesgoAcademico))%"></i></div><b>@_estado.RiesgoAcademico</b></div>
         <div class="medidor"><img class="ico" src="assets/ui/icono_riesgo_salud.png" alt="" /><span>Riesgo de salud</span><div class="barra-medidor"><i class="riesgo" style="width:@(Pct(_estado.RiesgoSalud))%"></i><u class="umbral" title="Umbral del evento de salud"></u></div><b>@_estado.RiesgoSalud</b></div>
-        <div class="medidor"><img class="ico" src="assets/ui/icono_turnos.png" alt="" /><span>Turnos restantes</span><div></div><b>@_estado.TurnosRestantes</b></div>
-        <div class="medidor"><img class="ico" src="assets/ui/icono_proyecto.png" alt="" /><span>Proyecto</span><div></div><b>@(_estado.TurnosProyecto)/@(Configuracion.TurnosProyectoNecesarios)</b></div>
+        <div class="medidor medidor-simple"><img class="ico" src="assets/ui/icono_turnos.png" alt="" /><span>Turnos restantes</span><b>@_estado.TurnosRestantes</b></div>
+        <div class="medidor medidor-simple"><img class="ico" src="assets/ui/icono_proyecto.png" alt="" /><span>Proyecto</span><b>@(_estado.TurnosProyecto)/@(Configuracion.TurnosProyectoNecesarios)</b></div>
     </section>
 
     <section class="acciones panel" aria-label="Acciones">
@@ -64,7 +64,7 @@ else if (_info is not null)
             {
                 var accion = a;
                 <button type="button" class="@(_estado.Bloqueado ? "pierde" : "")" @onclick="() => Jugar(accion)">
-                    <img src="@RutaAccion(accion)" alt="" />@Etiqueta(accion)
+                    <img src="@RutaAccion(accion)" alt="" /><span class="accion-nombre">@Etiqueta(accion)</span>
                     @if (_estado.Bloqueado)
                     {
                         <small>pierde el turno</small>

@@ -16,6 +16,7 @@
 * { box-sizing: border-box; }
 body {
   margin: 0; min-height: 100vh; color: var(--tinta);
+  min-height: 100svh;
   font: 700 16px/1.4 "Trebuchet MS", "Arial Rounded MT Bold", "Segoe UI", system-ui, sans-serif;
   background:
     radial-gradient(circle at 20% 15%, #ffffff22 0 3px, transparent 4px) 0 0 / 46px 46px,
@@ -39,6 +40,7 @@ body {
 
 button, .btn {
   font: inherit; font-weight: 900; color: var(--tinta); cursor: pointer;
+  min-height: 44px; touch-action: manipulation;
   display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px;
   background: linear-gradient(#fff 0%, var(--papel-2) 100%); border: var(--borde); border-radius: 999px;
   box-shadow: var(--sombra); transition: transform .08s ease, box-shadow .08s ease, filter .1s;
@@ -58,15 +60,12 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 /*distribución*/
 .juego {
   display: grid; gap: 18px; padding: 20px; max-width: 1600px; margin: 0 auto;
-  grid-template-columns: 2.4fr 1fr;
+  grid-template-columns: minmax(0, 2.4fr) minmax(300px, 1fr);
   grid-template-areas: "escena acciones" "hud acciones";
 }
 .escena { grid-area: escena; } .hud { grid-area: hud; }
 .acciones { grid-area: acciones; } .registro { grid-area: registro; } .analisis { grid-area: analisis; }
-@media (max-width: 860px) {
-  .juego { grid-template-columns: 1fr; grid-template-areas: "escena" "acciones" "hud"; padding: 12px; }
-  .barra h1 { font-size: 1.4rem; }
-}
+.juego > * { min-width: 0; }
 
 /*paneles con cinta de título*/
 .panel {
@@ -112,6 +111,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 
 /*barras*/
 .medidor { display: grid; grid-template-columns: 30px 1fr 1.3fr 46px; align-items: center; gap: 10px; margin: 11px 0; }
+.medidor-simple { grid-template-columns: 30px minmax(0, 1fr) 46px; }
 .ico { width: 28px; height: 28px; object-fit: contain; }
 .barra-medidor {
   position: relative; height: 20px; background: #e7d8b3; border: var(--borde); border-radius: 999px; overflow: hidden;
@@ -155,6 +155,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 /*acciones*/
 .acciones-lista { display: grid; gap: 12px; }
 .acciones-lista button {
+  display: grid; grid-template-columns: 42px minmax(0, 1fr); text-align: left;
   justify-content: flex-start; padding: 8px 18px 8px 10px; font-size: 1.05rem; border-radius: 18px;
   background: linear-gradient(#ffe27a, var(--amarillo));
 }
@@ -163,8 +164,9 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .acciones-lista button:nth-child(4) { background: linear-gradient(#8bf5b8, var(--verde)); }
 .acciones-lista button:nth-child(5) { background: linear-gradient(#c9b2ff, #a98aff); }
 .acciones-lista button img { width: 42px; height: 42px; object-fit: contain; background: #fff; border: 3px solid var(--tinta); border-radius: 12px; padding: 2px; }
+.accion-nombre { min-width: 0; overflow-wrap: anywhere; }
 .acciones-lista button.pierde { filter: grayscale(.7) brightness(.95); }
-.acciones-lista small { margin-left: auto; padding: 1px 10px; background: var(--rojo); color: #fff; border: 2px solid var(--tinta); border-radius: 999px; }
+.acciones-lista small { grid-column: 2; justify-self: start; max-width: 100%; padding: 1px 10px; background: var(--rojo); color: #fff; border: 2px solid var(--tinta); border-radius: 999px; }
 
 /*registro tipo consola*/
 .log {
@@ -185,5 +187,70 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 
 /*pantalla del evento del día 14*/
 .evento-fondo { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: #170c2ecc; }
-.evento { width: min(960px, 100%); text-align: center; padding-top: 34px; }
+.evento { width: min(960px, 100%); max-height: calc(100dvh - 48px); overflow-y: auto; text-align: center; padding-top: 34px; }
+.evento h3 { position: static; display: inline-block; margin: 0 0 16px; }
 .evento img, .evento video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin: 0 0 12px; border: 6px solid var(--tinta); border-radius: 20px; background: #000; }
+
+/* Una columna conserva el orden de lectura: escena, registros y decisiones. */
+@media (max-width: 860px) {
+  body { background-attachment: scroll; }
+  .barra {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 14px max(12px, env(safe-area-inset-left));
+  }
+  .barra h1 { font-size: clamp(1.2rem, 4.6vw, 1.8rem); -webkit-text-stroke-width: 1px; text-shadow: 2px 2px 0 var(--tinta); }
+  .logo { max-width: 100%; height: 38px; }
+  .controles { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .controles button { justify-content: center; padding: 8px; font-size: .85rem; line-height: 1.3; }
+  .juego {
+    grid-template-columns: minmax(0, 1fr); grid-template-areas: "escena" "hud" "acciones";
+    gap: 28px; padding: 16px max(12px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  .aviso { margin: 14px 12px 0; overflow-wrap: anywhere; }
+  .escena { aspect-ratio: auto; min-height: 0; border-width: 4px; border-radius: 20px; }
+  .escena-fase { padding: 14px; background: linear-gradient(#000c, #0006); }
+  .escena-fase h2 { font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.2; overflow-wrap: anywhere; }
+  .texto-placeholder { display: block; max-width: 100%; padding: 10px; font-size: .92rem; line-height: 1.5; overflow-wrap: anywhere; }
+  /* El personaje y el cierre ocupan espacio propio y no cubren el diálogo. */
+  .beto { position: relative; right: auto; bottom: auto; align-self: flex-end; width: clamp(100px, 28vw, 180px); margin: 10px 14px 14px; }
+  .final { position: relative; font-size: clamp(1rem, 4vw, 1.4rem); padding: 12px; overflow-wrap: anywhere; }
+  .escena:not(:has(.beto)):not(:has(.final)) { min-height: 320px; }
+  .panel { padding: 28px 14px 16px; border-radius: 18px; }
+  .panel h3 { left: 12px; padding-inline: 12px; font-size: .85rem; }
+  .hud { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+  .medidor { grid-column: 1 / -1; grid-template-columns: 24px minmax(0, 1fr) 46px; gap: 4px 8px; margin: 0; }
+  .medidor .ico { grid-column: 1; grid-row: 1; width: 24px; height: 24px; }
+  .medidor > span { grid-column: 2; grid-row: 1; min-width: 0; font-size: .9rem; }
+  .medidor > b { grid-column: 3; grid-row: 1; }
+  .medidor .barra-medidor { grid-column: 2 / -1; grid-row: 2; height: 14px; }
+  .medidor-simple { grid-column: auto; grid-template-columns: 24px minmax(0, 1fr) 42px; align-self: stretch; margin-top: 4px; }
+  .medidor-simple > span { font-size: .8rem; line-height: 1.25; }
+  .acciones-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .acciones-lista button { grid-template-columns: 34px minmax(0, 1fr); min-height: 76px; gap: 6px; padding: 10px 8px; font-size: .9rem; line-height: 1.3; border-radius: 14px; }
+  .acciones-lista button img { width: 34px; height: 34px; border-radius: 10px; }
+  .acciones-lista small { grid-column: 1 / -1; font-size: .75rem; padding-inline: 6px; }
+  .acciones-lista > .ayuda { grid-column: 1 / -1; }
+  .celda { min-height: 58px; height: auto; padding: 14px 12px; font-size: .95rem; }
+  .celda > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .celda .turnos { flex-shrink: 0; padding-inline: 8px; }
+  .evento-fondo { padding: max(16px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+  .evento.panel { padding-top: 16px; }
+  .evento img, .evento video { max-height: 45dvh; object-fit: contain; border-width: 3px; border-radius: 12px; }
+  .evento button { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 380px) {
+  .acciones-lista { grid-template-columns: minmax(0, 1fr); }
+  .acciones-lista button { min-height: 58px; grid-template-columns: 34px minmax(0, 1fr); }
+  .acciones-lista small { grid-column: 2; }
+  .medidor-simple { grid-column: 1 / -1; }
+}
+
+@media (max-height: 500px) and (min-width: 600px) and (max-width: 1024px) {
+  .escena { aspect-ratio: auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 140px; align-items: end; }
+  .escena-fase { grid-column: 1; padding: 12px; }
+  .escena-fase h2 { font-size: 1.4rem; }
+  .beto { position: relative; right: auto; bottom: auto; width: 120px; margin: 10px; }
+  .final { position: relative; grid-column: 1 / -1; }
+  .escena:not(:has(.beto)) .escena-fase { grid-column: 1 / -1; }
+}
